@@ -16,7 +16,6 @@ namespace ZPP_aplikacja_internetowa.Data
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
             builder.Entity<GameUser>()
                         .HasKey(x => new { x.GameId, x.UserId });
 
