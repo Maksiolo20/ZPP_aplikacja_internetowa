@@ -14,5 +14,22 @@ namespace ZPP_aplikacja_internetowa.Data
             : base(options)
         {
         }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<GameUser>()
+                        .HasKey(x => new { x.GameId, x.UserId });
+
+            builder.Entity<GameUser>()
+               .HasOne(x => x.User)
+               .WithMany(x => x.Games)
+               .HasForeignKey(x => x.UserId);
+
+            builder.Entity<GameUser>()
+                  .HasOne(x => x.Game)
+                  .WithMany(x => x.Players)
+                  .HasForeignKey(x => x.GameId);
+
+        }
+
     }
 }
