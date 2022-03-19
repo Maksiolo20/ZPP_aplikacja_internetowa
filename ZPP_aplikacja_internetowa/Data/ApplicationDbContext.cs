@@ -25,10 +25,19 @@ namespace ZPP_aplikacja_internetowa.Data
                .HasForeignKey(x => x.UserId);
 
             builder.Entity<GameUser>()
-                  .HasOne(x => x.Game)
-                  .WithMany(x => x.Players)
-                  .HasForeignKey(x => x.GameId);
+               .HasOne(x => x.Game)
+               .WithMany(x => x.Players)
+               .HasForeignKey(x => x.GameId);
 
+            builder.Entity<Map>()
+                .HasMany(x => x.Games)
+                .WithOne(x => x.Map)
+                .HasForeignKey(x => x.MapId);
+
+            builder.Entity<Game>()
+                .HasOne(x => x.GameStatuses)
+                .WithMany(x => x.Games)
+                .HasForeignKey(x => x.GameStatusId);
         }
 
     }

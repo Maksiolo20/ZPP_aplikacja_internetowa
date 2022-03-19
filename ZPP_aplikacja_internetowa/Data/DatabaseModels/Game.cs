@@ -7,5 +7,7 @@
         public Map Map { get; set; }
         public ICollection<GameUser> Players { get; set; }
         public int WinnerId { get; set; }
+        public int GameStatusId { get; set; }
+        public GameStatus GameStatuses { get; set; }
     }
 }

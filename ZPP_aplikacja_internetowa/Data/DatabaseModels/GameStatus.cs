@@ -1,9 +1,8 @@
 ﻿namespace ZPP_aplikacja_internetowa.Data.DatabaseModels
 {
-    public class Map
+    public class GameStatus
     {
-        public int MapId { get; set; }
-        public string Name { get; set; }
+        public int GameStatusId { get; set; }
         public ICollection<Game> Games { get; set; }
     }
 }
