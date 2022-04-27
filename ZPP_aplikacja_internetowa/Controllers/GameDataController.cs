@@ -19,6 +19,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
             Game game = JsonSerializer.Deserialize<Game>(resultJson);
             _context.Games.Add(game);
             _context.SaveChangesAsync();
+            return View();
         }
     }
 }
