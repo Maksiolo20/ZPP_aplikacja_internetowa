@@ -26,6 +26,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
             var foundUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
             if (foundUser is not null)
             {
+                //TODO - naprawic porownanie hasla
                 if (foundUser.PasswordHash == user.Password)
                 {
                     //send confirmation
