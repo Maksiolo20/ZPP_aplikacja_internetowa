@@ -5,7 +5,7 @@ using ZPP_aplikacja_internetowa.Data.DatabaseModels;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
-    
+
     public class GameDataController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -20,6 +20,19 @@ namespace ZPP_aplikacja_internetowa.Controllers
             _context.Games.Add(game);
             _context.SaveChangesAsync();
             return View();
+        }
+        public IActionResult Login([FromBody] UnityUser user)
+        {
+            var foundUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
+            if (foundUser is not null)
+            {
+                if (foundUser.PasswordHash == user.Password)
+                {
+                    //send confirmation
+                    return Ok();
+                }    
+            }
+            return BadRequest();
         }
     }
 }
