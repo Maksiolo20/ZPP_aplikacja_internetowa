@@ -2,21 +2,16 @@
 using System.Text.Json;
 using ZPP_aplikacja_internetowa.Data;
 using ZPP_aplikacja_internetowa.Data.DatabaseModels;
-using ZPP_aplikacja_internetowa.Services;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
 
-    [Route("api/[controller]")]
-    [ApiController]
-    public class GameDataController : ControllerBase
+    public class GameDataController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UnityLoginService _unityLoginService;
-        public GameDataController(ApplicationDbContext context, UnityLoginService unityLoginService)
+        public GameDataController(ApplicationDbContext context)
         {
             _context = context;
-            _unityLoginService = unityLoginService;
         }
         [HttpPost]
         public IActionResult Index(string resultJson)
@@ -24,12 +19,20 @@ namespace ZPP_aplikacja_internetowa.Controllers
             Game game = JsonSerializer.Deserialize<Game>(resultJson);
             _context.Games.Add(game);
             _context.SaveChangesAsync();
-            return Ok();
+            return View();
         }
-        [HttpPost(Name = "GetUser")]
-        public async Task<IActionResult> GetUser([FromBody] UnityUser unityUser)
+        public IActionResult Login([FromBody] UnityUser user)
         {
-            if (await _unityLoginService.UserExists(unityUser) )return Ok();
+            var foundUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
+            if (foundUser is not null)
+            {
+                //TODO - naprawic porownanie hasla
+                if (foundUser.PasswordHash == user.Password)
+                {
+                    //send confirmation
+                    return Ok();
+                }    
+            }
             return BadRequest();
         }
     }
