@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZPP_aplikacja_internetowa", "ZPP_aplikacja_internetowa.csproj", "{7670B907-1C14-478E-AEEA-C1EAC1F316FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZPP_aplikacja_internetowa", "ZPP_aplikacja_internetowa.csproj", "{7670B907-1C14-478E-AEEA-C1EAC1F316FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_project", "..\Test_project\Test_project.csproj", "{D0A75D20-2977-4174-9709-64EE6D104636}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{7670B907-1C14-478E-AEEA-C1EAC1F316FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7670B907-1C14-478E-AEEA-C1EAC1F316FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7670B907-1C14-478E-AEEA-C1EAC1F316FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0A75D20-2977-4174-9709-64EE6D104636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0A75D20-2977-4174-9709-64EE6D104636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0A75D20-2977-4174-9709-64EE6D104636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0A75D20-2977-4174-9709-64EE6D104636}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

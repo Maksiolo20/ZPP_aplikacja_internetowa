@@ -17,6 +17,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ISqlConnectionService,SqlConnectionService>(_ => new SqlConnectionService(connectionString));
 builder.Services.AddScoped<UnityLoginService>();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
