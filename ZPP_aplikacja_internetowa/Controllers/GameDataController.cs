@@ -42,11 +42,12 @@ namespace ZPP_aplikacja_internetowa.Controllers
             return Ok();
         }
 
-
+        [HttpPost]
         public async Task<IActionResult> Login([FromBody]UnityUser user)
         {
+            user.Email = "a@a.pl";
             _logger.LogInformation($"Tryin to log user: {user.Email}, pass: {user.Password}");
-            var toLog = _context.Users.FirstOrDefault(x => x.Email == user.Email);
+            var toLog = _context.Users.FirstOrDefault(x => x.NormalizedEmail == user.Email.ToUpper());
             if (toLog is not null)
             {
                 var result = await _authentication.Login(toLog, user.Password);
