@@ -13,6 +13,7 @@ namespace ZPP_aplikacja_internetowa.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,5 +42,12 @@ namespace ZPP_aplikacja_internetowa.Data
                 .HasForeignKey(x => x.GameStatusId);
         }
 
+        public List<User> GetAllUsers()
+        {
+            var result = new List<User>();
+
+
+            return result;
+        }
     }
 }
