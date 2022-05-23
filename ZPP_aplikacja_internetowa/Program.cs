@@ -24,7 +24,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v2/swagger.json", "ZPP_aplikacja_internetowa");
+    });
 }
 else
 {
