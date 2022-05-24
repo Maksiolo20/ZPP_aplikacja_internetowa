@@ -4,22 +4,34 @@ using System.Text.Json;
 using ZPP_aplikacja_internetowa.Data;
 using ZPP_aplikacja_internetowa.Data.DatabaseModels;
 using ZPP_aplikacja_internetowa.Services;
+using AutoMapper;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
+
     public class GameDataController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly IAuthentication _authentication;
         private readonly ILogger<GameDataController> _logger;
+        private readonly SignInManager<IdentityUser> _singInManager;
+        private readonly IMapper _mapper;
 
-        public GameDataController(ApplicationDbContext context, IAuthentication authentication, ILogger<GameDataController> logger)
+        public GameDataController(ApplicationDbContext context, 
+                                  IAuthentication authentication, 
+                                  ILogger<GameDataController> logger, 
+                                  SignInManager<IdentityUser> singInManager,
+                                  IMapper mapper)
         {
             _context = context;
             _authentication = authentication;
             _logger = logger;
             _logger.LogWarning($"_context {_context.Users.Count()}");
             _logger.LogWarning($"context {context.Users.Count()}");
+            _singInManager = singInManager;
+            _mapper = mapper;
         }
         /*        [HttpPost]
                 public IActionResult Index(string resultJson)
@@ -36,20 +48,23 @@ namespace ZPP_aplikacja_internetowa.Controllers
             return 5;
         }
 
-        [HttpPost]
-        public IActionResult Login2([FromBody]UnityUser user)
-        {
-            return Ok();
-        }
+        //[HttpPost]
+        //public IActionResult Login2([FromBody]UnityUser user)
+        //{
+        //    return Ok();
+        //}
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]UnityUser user)
         {
-            user.Email = "a@a.pl";
+            // test = _context.
             _logger.LogInformation($"Tryin to log user: {user.Email}, pass: {user.Password}");
-            var toLog = _context.Users.FirstOrDefault(x => x.NormalizedEmail == user.Email.ToUpper());
+            //var toLog = _context.Users.FirstOrDefault(x => x.NormalizedEmail == user.Email.ToUpper());
+            var toLog =  _mapper.Map<User>(_singInManager.UserManager.Users.FirstOrDefault(x => x.Email == user.Email));
+            
             if (toLog is not null)
             {
+                
                 var result = await _authentication.Login(toLog, user.Password);
                 return Ok(result);
             }
@@ -57,19 +72,19 @@ namespace ZPP_aplikacja_internetowa.Controllers
             //return Ok();
         }
 
-        public IActionResult Login1([FromBody] UnityUser user)
-        {
-            var foundUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
-            if (foundUser is not null)
-            {
-                //TODO - naprawic porownanie hasla
-                if (foundUser.PasswordHash == user.Password)
-                {
-                    //send confirmation
-                    return Ok();
-                }
-            }
-            return BadRequest();
-        }
+        //public IActionResult Login1([FromBody] UnityUser user)
+        //{
+        //    var foundUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
+        //    if (foundUser is not null)
+        //    {
+        //        //TODO - naprawic porownanie hasla
+        //        if (foundUser.PasswordHash == user.Password)
+        //        {
+        //            //send confirmation
+        //            return Ok();
+        //        }
+        //    }
+        //    return BadRequest();
+        //}
     }
 }

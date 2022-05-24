@@ -4,6 +4,7 @@ using ZPP_aplikacja_internetowa.Models;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using ZPP_aplikacja_internetowa.Data;
+using ZPP_aplikacja_internetowa.Data.DatabaseModels;
+using ZPP_aplikacja_internetowa.Mapper;
 using ZPP_aplikacja_internetowa.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,11 +14,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IAuthentication), typeof(Authentication));
-builder.Services.AddSwaggerGen();
+builder.Services.AddTransient<SignInManager<IdentityUser>>();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v2", new OpenApiInfo { Title = "ZPP_aplikacja_internetowa", Version = "v2" });
+});
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 var app = builder.Build();
 
