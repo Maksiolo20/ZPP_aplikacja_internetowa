@@ -5,9 +5,9 @@ namespace ZPP_aplikacja_internetowa.Services
 {
     public class Authentication : IAuthentication
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public Authentication(SignInManager<IdentityUser> signInManager)
+        public Authentication(SignInManager<User> signInManager)
         {
             _signInManager = signInManager;
         }

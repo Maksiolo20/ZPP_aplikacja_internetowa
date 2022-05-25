@@ -19,6 +19,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
         private readonly SignInManager<IdentityUser> _singInManager;
         private readonly IMapper _mapper;
 
+<<<<<<< Updated upstream
         public GameDataController(ApplicationDbContext context, 
                                   IAuthentication authentication, 
                                   ILogger<GameDataController> logger, 
@@ -56,6 +57,18 @@ namespace ZPP_aplikacja_internetowa.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody]UnityUser user)
+=======
+        public GameDataController(ApplicationDbContext context, IAuthentication authentication, ILogger<GameDataController> logger)
+        {
+            _context = context;
+            _authentication = authentication;
+            _logger = logger;
+            _logger.LogWarning($"users {context.Users.Count()}");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login([FromForm] UnityUser user)
+>>>>>>> Stashed changes
         {
             // test = _context.
             _logger.LogInformation($"Tryin to log user: {user.Email}, pass: {user.Password}");
@@ -69,6 +82,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
                 return Ok(result);
             }
             return BadRequest();
+<<<<<<< Updated upstream
             //return Ok();
         }
 
@@ -88,3 +102,8 @@ namespace ZPP_aplikacja_internetowa.Controllers
         //}
     }
 }
+=======
+        }      
+    }
+}
+>>>>>>> Stashed changes

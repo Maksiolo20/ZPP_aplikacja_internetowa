@@ -3,7 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using ZPP_aplikacja_internetowa.Data;
 using ZPP_aplikacja_internetowa.Data.DatabaseModels;
+<<<<<<< Updated upstream
 using ZPP_aplikacja_internetowa.Mapper;
+=======
+>>>>>>> Stashed changes
 using ZPP_aplikacja_internetowa.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,8 +17,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+<<<<<<< Updated upstream
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+=======
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+>>>>>>> Stashed changes
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IAuthentication), typeof(Authentication));
