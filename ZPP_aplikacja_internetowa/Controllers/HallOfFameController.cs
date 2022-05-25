@@ -7,15 +7,15 @@ namespace ZPP_aplikacja_internetowa.Controllers
     public class HallOfFameController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public List<Game> _game { get; set; }  = new List<Game>();
         public Game Model { get; set; }
         public HallOfFameController(ApplicationDbContext context)
         {
             _context = context;
-            Model = new Game();
         }
         public IActionResult Index()
         {
-            return View(Model);
+            return View(_game);
         }
     }
 }
