@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using ZPP_aplikacja_internetowa.Data;
+using ZPP_aplikacja_internetowa.Data.DatabaseModels;
 using ZPP_aplikacja_internetowa.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,19 +13,26 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<ISqlConnectionService,SqlConnectionService>(_ => new SqlConnectionService(connectionString));
-builder.Services.AddScoped<UnityLoginService>();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddRazorPages();
+builder.Services.AddScoped(typeof(IAuthentication), typeof(Authentication));
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v2", new OpenApiInfo { Title = "ZPP_aplikacja_internetowa", Version = "v2" });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v2/swagger.json", "ZPP_aplikacja_internetowa");
+    });
 }
 else
 {
