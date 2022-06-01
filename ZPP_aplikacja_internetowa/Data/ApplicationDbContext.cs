@@ -4,7 +4,7 @@ using ZPP_aplikacja_internetowa.Data.DatabaseModels;
 
 namespace ZPP_aplikacja_internetowa.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Game> Games { get; set; }
         public DbSet<GameUser> GameUsers { get; set; }
@@ -13,7 +13,6 @@ namespace ZPP_aplikacja_internetowa.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -41,5 +40,6 @@ namespace ZPP_aplikacja_internetowa.Data
                 .WithMany(x => x.Games)
                 .HasForeignKey(x => x.GameStatusId);
         }
+
     }
 }

@@ -1,41 +1,36 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using ZPP_aplikacja_internetowa.Data;
 using ZPP_aplikacja_internetowa.Data.DatabaseModels;
 using ZPP_aplikacja_internetowa.Services;
-using AutoMapper;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
-    public class GameDataController : Controller
+
+    [Route("api/[controller]")]
+    [ApiController]
+    public class GameDataController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        private readonly IAuthentication _authentication;
-        private readonly ILogger<GameDataController> _logger;
-
-        public GameDataController(ApplicationDbContext context, IAuthentication authentication, ILogger<GameDataController> logger)
+        private readonly UnityLoginService _unityLoginService;
+        public GameDataController(ApplicationDbContext context, UnityLoginService unityLoginService)
         {
             _context = context;
-            _authentication = authentication;
-            _logger = logger;
-            _logger.LogWarning($"users {context.Users.Count()}");
+            _unityLoginService = unityLoginService;
         }
-
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] UnityUser user)
+        public IActionResult Index(string resultJson)
         {
-            _logger.LogInformation($"Tryin to log user: {user.Email}, pass: {user.Password}");
-            var toLog = _context.Users.FirstOrDefault(x => x.Email == user.Email);
-            if (toLog is not null)
-            {
-                var result = await _authentication.Login(toLog, user.Password);
-                return Ok(result);
-            }
+            Game game = JsonSerializer.Deserialize<Game>(resultJson);
+            _context.Games.Add(game);
+            _context.SaveChangesAsync();
+            return Ok();
+        }
+        [HttpPost(Name = "GetUser")]
+        public async Task<IActionResult> GetUser([FromBody] UnityUser unityUser)
+        {
+            if (await _unityLoginService.UserExists(unityUser) )return Ok();
             return BadRequest();
         }
     }
 }
-
-
-
