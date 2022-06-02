@@ -9,6 +9,8 @@ using ZPP_aplikacja_internetowa.Models;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
+    [ApiController]
+    [Route("Api")]
     public class GameDataController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -23,7 +25,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
             _logger.LogWarning($"users {context.Users.Count()}");
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login([FromForm] UnityUser user)
         {
             _logger.LogInformation($"Tryin to log user: {user.Email}, pass: {user.Password}");
@@ -36,31 +38,23 @@ namespace ZPP_aplikacja_internetowa.Controllers
             return BadRequest();
         }
 
-        [HttpPost]
+        [HttpPost("GetWinner")]
         public async Task<IActionResult> RecieveStats([FromForm] UnityGameResult unityGameResult)
         {
+            Game plyedGame = new() { GameStatusId = 2, MapId = unityGameResult.MapId};
             //Game game = JsonSerializer.Deserialize<Game>(resultJson);
-            var winner = _context.Users.FirstOrDefault(r => r.Email == unityGameResult.WinnersEmail);
-            List<User> players = new List<User>();
+            if (unityGameResult.WinnersEmail != null)
+            {
+                string winnerId = _context.Users.FirstOrDefault(r => r.Email == unityGameResult.WinnersEmail).Id;
+                plyedGame.WinnerId = winnerId;
+            }
             foreach (var item in unityGameResult.PlayersEmails)
             {
                 var player = _context.Users.FirstOrDefault(r => r.Email == item);
-                players.Add(player);
+                _context.GameUsers.Add(new GameUser { UserId = player.Id, GameId = plyedGame.GameId });
             }
-
-/*            if (winner is not null)
-            {
-                Game game = new Game()
-                {
-                    MapId = unityGameResult.MapId,
-                    WinnerId = winner.Id,
-                    Players = players
-
-                };
-            }
-            _context.Games.Add(game);
-            await _context.SaveChangesAsync();*/
-
+            _context.Games.Add(plyedGame);
+            _context.SaveChanges();
             return Ok();
         }
     }
