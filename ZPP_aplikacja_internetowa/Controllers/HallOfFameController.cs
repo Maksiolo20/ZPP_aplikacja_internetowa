@@ -4,6 +4,8 @@ using ZPP_aplikacja_internetowa.Data.DatabaseModels;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
+    [ApiController]
+    [Route("Api")]
     public class HallOfFameController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,6 +26,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
             //    _context.SaveChanges();
             //}
         }
+        [HttpGet]
         public IActionResult Index()
         {
             return View(_game);
