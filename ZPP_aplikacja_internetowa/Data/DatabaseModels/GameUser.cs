@@ -2,6 +2,7 @@
 {
     public class GameUser
     {
+        public string GameUserId { get; set; } = Guid.NewGuid().ToString();
         public string UserId { get; set; }
         public string GameId { get; set; }
 

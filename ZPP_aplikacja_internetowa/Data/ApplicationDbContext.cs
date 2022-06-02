@@ -10,11 +10,12 @@ namespace ZPP_aplikacja_internetowa.Data
         public DbSet<GameUser> GameUsers { get; set; }
         public DbSet<Map> Maps { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<GameStatus> GameStatuses { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -40,6 +41,15 @@ namespace ZPP_aplikacja_internetowa.Data
                 .HasOne(x => x.GameStatuses)
                 .WithMany(x => x.Games)
                 .HasForeignKey(x => x.GameStatusId);
+
+            builder.Entity<GameStatus>()
+                .HasData(
+                new GameStatus{GameStatusId = 1, StatusName = "Started" },
+                new GameStatus{GameStatusId = 2, StatusName = "Ended" });
+            builder.Entity<Map>()
+                .HasData(
+                new Map { MapId = 1, Name = "Dust2" }
+                );
         }
     }
 }
