@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ZPP_aplikacja_internetowa.Data;
 
@@ -11,9 +12,10 @@ using ZPP_aplikacja_internetowa.Data;
 namespace ZPP_aplikacja_internetowa.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220603144455_s")]
+    partial class s
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,19 +216,18 @@ namespace ZPP_aplikacja_internetowa.Migrations
 
             modelBuilder.Entity("ZPP_aplikacja_internetowa.Data.DatabaseModels.GameUser", b =>
                 {
-                    b.Property<string>("UserId")
+                    b.Property<string>("GameId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("GameId")
-                        .IsRequired()
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("GameUserId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("GameId", "UserId");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("GameUsers");
                 });

@@ -9,8 +9,6 @@ using ZPP_aplikacja_internetowa.Models;
 
 namespace ZPP_aplikacja_internetowa.Controllers
 {
-    [ApiController]
-    [Route("Api")]
     public class GameDataController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -25,7 +23,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
             _logger.LogWarning($"users {context.Users.Count()}");
         }
 
-        [HttpPost("Login")]
+        [HttpPost]
         public async Task<IActionResult> Login([FromForm] UnityUser user)
         {
             _logger.LogInformation($"Tryin to log user: {user.Email}, pass: {user.Password}");
@@ -38,21 +36,38 @@ namespace ZPP_aplikacja_internetowa.Controllers
             return BadRequest();
         }
 
-        [HttpPost("GetWinner")]
+        [HttpPost]
         public async Task<IActionResult> RecieveStats([FromForm] UnityGameResult unityGameResult)
         {
-            Game plyedGame = new() { GameStatusId = 2, MapId = unityGameResult.MapId};
+            Game plyedGame = new() { GameStatusId = 2, MapId = unityGameResult.MapId };
+            User winner = null;
+            User looser = null;
             //Game game = JsonSerializer.Deserialize<Game>(resultJson);
             if (unityGameResult.WinnersEmail != null)
             {
-                string winnerId = _context.Users.FirstOrDefault(r => r.Email == unityGameResult.WinnersEmail).Id;
-                plyedGame.WinnerId = winnerId;
+                var emailSplit = unityGameResult.WinnersEmail.Split('\'');
+                winner = _context.Users.FirstOrDefault(r => r.Email == emailSplit[1]);
+                plyedGame.WinnerId = winner.Id;
             }
-            foreach (var item in unityGameResult.PlayersEmails)
+            if (unityGameResult.LoosersEmail != null)
             {
-                var player = _context.Users.FirstOrDefault(r => r.Email == item);
-                _context.GameUsers.Add(new GameUser { UserId = player.Id, GameId = plyedGame.GameId });
+                //var emailSplit = unityGameResult.WinnersEmail.Split('\'');
+                looser = _context.Users.FirstOrDefault(r => r.Email == unityGameResult.LoosersEmail);
+                _logger.LogWarning(looser.Email);
+                _logger.LogWarning(looser.Id);
+
             }
+
+            if (winner is not null && looser is not null)
+            {
+                GameUser gameUser = new GameUser() { UserId = winner.Id, GameId = plyedGame.GameId };
+                _context.GameUsers.Add(gameUser);
+                gameUser = new GameUser() { UserId = looser.Id, GameId = plyedGame.GameId };
+                _context.GameUsers.Add(gameUser);
+                //_context.GameUsers.Add(new GameUser { UserId = winner.Id, GameId = plyedGame.GameId });
+                //_context.GameUsers.Add(new GameUser { UserId = looser.Id, GameId = plyedGame.GameId });
+            }
+
             _context.Games.Add(plyedGame);
             _context.SaveChanges();
             return Ok();

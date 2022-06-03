@@ -20,7 +20,8 @@ namespace ZPP_aplikacja_internetowa.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<GameUser>()
-                        .HasKey(x => new { x.GameId, x.UserId });
+                        .HasKey(x => new {x.UserId });
+                        //.HasKey(x => new { x.GameId, x.UserId });
 
             builder.Entity<GameUser>()
                .HasOne(x => x.User)
