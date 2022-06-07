@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ZPP_aplikacja_internetowa.Data;
 using ZPP_aplikacja_internetowa.Data.DatabaseModels;
 
@@ -9,7 +10,7 @@ namespace ZPP_aplikacja_internetowa.Controllers
     public class HallOfFameController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public List<Game> _game { get; set; }  = new List<Game>();
+       
         public Game Model { get; set; }
         public HallOfFameController(ApplicationDbContext context)
         {
@@ -29,7 +30,9 @@ namespace ZPP_aplikacja_internetowa.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_game);
+
+            List<Game> games = _context.Games.Include(x=>x.Map).Include(x=>x.Players).ToList();
+            return View(games);
         }
     }
 }

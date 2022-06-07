@@ -8,6 +8,7 @@
         public ICollection<GameUser> Players { get; set; }
         public string WinnerId { get; set; }
         public int GameStatusId { get; set; }
+        public DateTime Date { get; set; }
         public GameStatus GameStatuses { get; set; }
     }
 }
