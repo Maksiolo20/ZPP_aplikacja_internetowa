@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ZPP_aplikacja_internetowa.Data.DatabaseModels.Game>
+﻿@model IEnumerable<HallOfFameViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,32 +16,40 @@
                 @Html.DisplayNameFor(model => model.Map)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.WinnerId)
+                @Html.DisplayNameFor(model => model.Winner)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GameStatuses)
+                @Html.DisplayNameFor(model => model.Loser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GameStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Map.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WinnerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GameStatuses.StatusName)
-            </td>
-            <td>
-                @*<a asp-action="Edit" asp-route-id="@item.GameId">Edit</a> |*@
-                <a asp-action="Details" asp-route-id="@item.GameId">Details</a> @*|*@
-                @*<a asp-action="Delete" asp-route-id="@item.GameId">Delete</a>*@
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Map)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Winner)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Loser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GameStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
