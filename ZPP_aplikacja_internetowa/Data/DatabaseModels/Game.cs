@@ -8,7 +8,7 @@
         public ICollection<GameUser> Players { get; set; }
         public string WinnerId { get; set; }
         public int GameStatusId { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
         public GameStatus GameStatuses { get; set; }
     }
 }

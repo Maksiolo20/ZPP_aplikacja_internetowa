@@ -3,7 +3,7 @@
     public class UnityGameResult
     {
         public string WinnersEmail { get; set; }
-        public ICollection<string> PlayersEmails { get; set; }
+        public string LoserEmail { get; set; }
         public int MapId { get; set; }
     }
 }
