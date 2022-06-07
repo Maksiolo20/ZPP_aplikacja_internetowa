@@ -17,6 +17,8 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IAuthentication), typeof(Authentication));
+builder.Services.AddScoped<IGameData, GameDataService>();
+builder.Services.AddScoped<IHallOfFame, HallOfFameService>();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v2", new OpenApiInfo { Title = "ZPP_aplikacja_internetowa", Version = "v2" });
